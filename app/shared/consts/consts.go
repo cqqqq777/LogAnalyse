@@ -47,9 +47,17 @@ const (
 
 // config file constant
 const (
+	ApiConfigFile = "./app/service/api/config.yaml"
+
 	UserConfigFile = "./app/service/user/rpc/config.yaml"
 )
 
 const (
 	NacosSnowflakeNode int64 = 0
+)
+
+const (
+	ApiGroup = "API_GROUP"
+
+	UserGroup = "USER_GROUP"
 )

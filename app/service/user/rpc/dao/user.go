@@ -18,6 +18,13 @@ type User struct {
 }
 
 func NewUser(db *gorm.DB) *User {
+	m := db.Migrator()
+	if !m.HasTable(&model.User{}) {
+		err := m.CreateTable(&model.User{})
+		if err != nil {
+			panic(err)
+		}
+	}
 	return &User{db: db}
 }
 

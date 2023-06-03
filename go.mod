@@ -11,6 +11,9 @@ require (
 	github.com/cloudwego/hertz v0.6.4
 	github.com/cloudwego/kitex v0.5.2
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/hertz-contrib/obs-opentelemetry/tracing v0.2.1
+	github.com/hertz-contrib/pprof v0.1.0
+	github.com/hertz-contrib/registry/nacos v0.0.0-20230423034249-f6ea4f8d59be
 	github.com/kitex-contrib/obs-opentelemetry v0.2.2
 	github.com/kitex-contrib/registry-nacos v0.1.0
 	github.com/nacos-group/nacos-sdk-go v1.1.4
@@ -59,6 +62,7 @@ require (
 	github.com/oleiade/lane v1.0.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/savsgio/gotils v0.0.0-20220530130905-52f3993e8d6d // indirect
 	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
