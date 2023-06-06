@@ -14,7 +14,7 @@ const (
 
 // expire time
 const (
-	TokenExpiredAt = 43200
+	TokenExpiredAt = 604800
 )
 
 // database constant
@@ -50,6 +50,7 @@ const (
 	ApiConfigFile = "./app/service/api/config.yaml"
 
 	UserConfigFile = "./app/service/user/rpc/config.yaml"
+	FileConfigFile = "./app/service/file/rpc/config.yaml"
 )
 
 const (
@@ -60,4 +61,5 @@ const (
 	ApiGroup = "API_GROUP"
 
 	UserGroup = "USER_GROUP"
+	FileGroup = "FILE_GROUP"
 )

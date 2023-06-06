@@ -13,10 +13,16 @@ const (
 	CodeNoPermission
 	CodeRpcCall
 	CodeServiceBusy
+	codeGetUserId
 )
 
 var (
 	ErrInvalidParam = NewErrZ(WithCode(CodeInvalidParam), WithMsg("invalid param"))
+
+	ErrGetUserId    = NewErrZ(WithCode(codeGetUserId), WithMsg("get user id failed"))
+	ErrNoPermission = NewErrZ(WithCode(CodeNoPermission), WithMsg("no permission"))
+	ErrRpcCall      = NewErrZ(WithCode(CodeRpcCall), WithMsg("call rpc service failed"))
+	ErrServiceBusy  = NewErrZ(WithCode(CodeServiceBusy), WithMsg("service busy"))
 )
 
 const (
@@ -37,4 +43,18 @@ var (
 	ErrUserExist     = NewErrZ(WithCode(codeUserExist), WithMsg("user exist"))
 	ErrUserNotFound  = NewErrZ(WithCode(codeUserNotFound), WithMsg("user not found"))
 	ErrWrongPassword = NewErrZ(WithCode(codeWrongPassword), WithMsg("wrong password"))
+)
+
+const (
+	codeFileService int64 = 30000 + iota
+
+	codeGenerateUrl
+	codeGetFileList
+)
+
+var (
+	ErrFileService = NewErrZ(WithCode(codeFileService), WithMsg("file service busy"))
+
+	ErrGenerateUrl = NewErrZ(WithCode(codeGenerateUrl), WithMsg("generate url failed"))
+	ErrGetFileList = NewErrZ(WithCode(codeGetFileList), WithMsg("get file list failed"))
 )

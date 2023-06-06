@@ -32,6 +32,7 @@ type ServerConfig struct {
 	OtelInfo    OtelConfig   `mapstructure:"otel" json:"otel"`
 	RedisInfo   RedisConfig  `mapstructure:"redis" json:"redis"`
 	UserSrvInfo RPCSrvConfig `mapstructure:"user_srv" json:"user_srv"`
+	FileSrvInfo RPCSrvConfig `mapstructure:"file_srv" json:"file_srv"`
 }
 
 type RPCSrvConfig struct {

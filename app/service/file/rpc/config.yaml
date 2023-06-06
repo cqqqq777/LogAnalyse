@@ -1,0 +1,7 @@
+host: '81.68.76.44'
+port: 8848
+namespace: 'LogAnalyze'
+user: 'nacos'
+password: 'nacos'
+dataid: 'file_srv'
+group: 'FILE_GROUP'

@@ -3,14 +3,16 @@
 package user
 
 import (
+	"context"
+
 	"LogAnalyse/app/service/api/config"
 	"LogAnalyse/app/shared/errz"
+	"LogAnalyse/app/shared/kitex_gen/common"
 	kuser "LogAnalyse/app/shared/kitex_gen/user"
 	"LogAnalyse/app/shared/log"
 	"LogAnalyse/app/shared/response"
-	"context"
 
-	user "LogAnalyse/app/service/api/biz/model/user"
+	"LogAnalyse/app/service/api/biz/model/user"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
@@ -20,18 +22,18 @@ import (
 func Register(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req user.RegisterReq
-	resp := new(kuser.RegisterResp)
+	resp := new(common.BaseResp)
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		resp.BaseResp = response.NewBaseResp(errz.ErrInvalidParam)
-		c.String(consts.StatusBadRequest, err.Error())
+		resp = response.NewBaseResp(errz.ErrInvalidParam)
+		c.JSON(consts.StatusBadRequest, resp)
 		return
 	}
 
 	res, err := config.GlobalUserClient.Register(ctx, &kuser.RegisterReq{Username: req.Username, Password: req.Password})
 	if err != nil {
 		log.Zlogger.Warn("rpc user service failed err:" + err.Error())
-		resp.BaseResp = response.NewBaseResp(errz.ErrUserService)
+		resp = response.NewBaseResp(errz.ErrUserService)
 		c.JSON(consts.StatusInternalServerError, resp)
 	}
 
@@ -44,17 +46,17 @@ func Login(ctx context.Context, c *app.RequestContext) {
 	var err error
 	var req user.LoginReq
 	err = c.BindAndValidate(&req)
-	resp := new(kuser.LoginResp)
+	resp := new(common.BaseResp)
 	if err != nil {
-		resp.BaseResp = response.NewBaseResp(errz.ErrInvalidParam)
-		c.String(consts.StatusBadRequest, err.Error())
+		resp = response.NewBaseResp(errz.ErrInvalidParam)
+		c.JSON(consts.StatusBadRequest, resp)
 		return
 	}
 
 	res, err := config.GlobalUserClient.Login(ctx, &kuser.LoginReq{Username: req.Username, Password: req.Password})
 	if err != nil {
 		log.Zlogger.Warn("rpc user service failed err:" + err.Error())
-		resp.BaseResp = response.NewBaseResp(errz.ErrUserService)
+		resp = response.NewBaseResp(errz.ErrUserService)
 		c.JSON(consts.StatusInternalServerError, resp)
 	}
 
