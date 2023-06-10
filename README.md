@@ -27,7 +27,7 @@ A distributed log analyze system.
 
 - User
 - File
-- Task
+- Job
 - Analysis
 
 ### Architecture

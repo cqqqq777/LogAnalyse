@@ -13,7 +13,7 @@
 - 配置中心: [Nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html)
 - 服务注册中心: Nacos
 - 消息队列: Kafka
-- 分布式存储系统: Ceph
+- 分布式存储系统: Minio
 - 链路追踪: Yaeger
 - 搜索引擎: ElasticSearch
 
@@ -30,7 +30,7 @@
 
 - User
 - File
-- Task
+- Job
 - Analysis
 
 ### 项目结构
@@ -46,7 +46,7 @@
    1. 客户端调用日志收集接口
    2. 将日志写入 kafka ，返回响应
    3. 消费 kafka 消息，写入 ES
-3. 日志存储：将日志信息存储在 ElasticSearch 与 Ceph 中以实现日志信息的备份与快速检索
+3. 日志存储：将日志信息存储在 ElasticSearch 与 Minio 中以实现日志信息的备份与快速检索
 4. 日志分析：基于 MapReduce 进行计算
 
 
