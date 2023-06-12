@@ -1,10 +1,9 @@
-package rpc
+package initialize
 
 import (
 	"LogAnalyse/app/service/api/config"
 	"LogAnalyse/app/shared/consts"
 	"LogAnalyse/app/shared/kitex_gen/file/fileservice"
-
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/loadbalance"
@@ -17,7 +16,7 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/vo"
 )
 
-func initFile() {
+func InitFile() fileservice.Client {
 	// init resolver
 	// Read configuration information from nacos
 	sc := []constant.ServerConfig{
@@ -63,5 +62,5 @@ func initFile() {
 	if err != nil {
 		klog.Fatalf("ERROR: cannot init client: %v\n", err)
 	}
-	config.GlobalFileClient = c
+	return c
 }

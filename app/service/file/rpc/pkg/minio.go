@@ -10,8 +10,6 @@ import (
 
 const expireTime = 1800
 
-var reqParams url.Values
-
 type MinioManager struct {
 	client *minio.Client
 }
@@ -45,6 +43,8 @@ func (m *MinioManager) DownLoadFile(ctx context.Context, bucketName, objectName 
 			return nil, err
 		}
 	}
+	reqParams := make(url.Values)
+	reqParams.Set("response-content-disposition", "attachment; filename=\""+objectName+"\"")
 	return m.client.PresignedGetObject(ctx, bucketName, objectName, time.Second*expireTime, reqParams)
 }
 

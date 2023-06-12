@@ -51,6 +51,7 @@ const (
 
 	UserConfigFile = "./app/service/user/rpc/config.yaml"
 	FileConfigFile = "./app/service/file/rpc/config.yaml"
+	JobConfigFile  = "./app/service/job/rpc/config.yaml"
 )
 
 const (
@@ -60,6 +61,8 @@ const (
 const (
 	ApiGroup = "API_GROUP"
 
-	UserGroup = "USER_GROUP"
-	FileGroup = "FILE_GROUP"
+	UserGroup    = "USER_GROUP"
+	FileGroup    = "FILE_GROUP"
+	JobGroup     = "JOB_GROUP"
+	AnalyseGroup = "ANALYSE_GROUP"
 )

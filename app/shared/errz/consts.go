@@ -58,3 +58,25 @@ var (
 	ErrGenerateUrl = NewErrZ(WithCode(codeGenerateUrl), WithMsg("generate url failed"))
 	ErrGetFileList = NewErrZ(WithCode(codeGetFileList), WithMsg("get file list failed"))
 )
+
+const (
+	codeJobService int64 = 40000 + iota
+
+	codeDownFile
+	codeGenerateJobID
+	codeCreateJob
+	codeGetJobList
+	codeGetJobInfo
+	codeUpdateJob
+)
+
+var (
+	ErrJobService = NewErrZ(WithCode(codeJobService), WithMsg("job service busy"))
+
+	ErrDownFile      = NewErrZ(WithCode(codeDownFile), WithMsg("get file from file service failed"))
+	ErrGenerateJobID = NewErrZ(WithCode(codeGenerateJobID), WithMsg("generate job id failed"))
+	ErrCreateJob     = NewErrZ(WithCode(codeCreateJob), WithMsg("create job failed"))
+	ErrGetJobList    = NewErrZ(WithCode(codeGetJobList), WithMsg("get job list failed"))
+	ErrGetJobInfo    = NewErrZ(WithCode(codeGetJobInfo), WithMsg("get job info failed"))
+	ErrUpdateJob     = NewErrZ(WithCode(codeUpdateJob), WithMsg("update job failed"))
+)
