@@ -2,10 +2,13 @@ package pkg
 
 import (
 	"LogAnalyse/app/service/analysis/internal"
+	"LogAnalyse/app/shared/log"
+	"bufio"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"sync"
 )
 
 func GetFilePath(userId int64) string {
@@ -19,60 +22,80 @@ func DownloadFile(url string, userId int64) ([]string, error) {
 	}
 	defer resp.Body.Close()
 
-	path := GetFilePath(userId) + "task"
+	path := GetFilePath(userId) + "task.log"
+	tmp, err := os.Create(path)
+	if err != nil {
+		return nil, err
+	}
+	defer os.Remove(path)
+	defer tmp.Close()
+
+	_, err = io.Copy(tmp, resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var wg sync.WaitGroup
+	scanner := bufio.NewScanner(tmp)
+	linesCh := make(chan string)
+	fileCount := 1
+	paths := make([]string, 0)
+
+	path = fmt.Sprintf("%stask%d", GetFilePath(userId), fileCount)
 	out, err := os.Create(path)
 	if err != nil {
-		return nil, err
-	}
-	defer out.Close()
-
-	_, err = io.Copy(out, resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	info, err := os.Stat(path)
-	if err != nil || info.Size() <= internal.FileSize {
 		return []string{path}, nil
 	}
+	paths = append(paths, path)
 
-	var Cap int64
-	if info.Size()%internal.FileSize != 0 {
-		Cap = info.Size()/internal.FileSize + 1
-	} else {
-		Cap = info.Size() / internal.FileSize
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for line := range linesCh {
+			go possessFile(line, out, &wg)
+		}
+	}()
+
+	for i := 1; scanner.Scan(); {
+		linesCh <- scanner.Text()
+		i++
+		if i >= internal.ChunkLine {
+			out.Close()
+			fileCount++
+			path = fmt.Sprintf("./task%d.log", fileCount)
+			paths = append(paths, path)
+			out, err = os.Create(path)
+			if err != nil {
+				log.Zlogger.Warn("create task file failed err:" + err.Error())
+				return paths, nil
+			}
+			i = 1
+		}
 	}
 
-	paths := make([]string, 0, Cap)
-
-	b := make([]byte, internal.FileSize)
-	var i int64 = 1
-	for ; i <= Cap; i++ {
-		out.Seek((i-1)*internal.FileSize, 0)
-		if len(b) > int(info.Size()-(i-1)*internal.FileSize) {
-			b = make([]byte, info.Size()-(i-1)*internal.FileSize)
-		}
-
-		out.Read(b)
-
-		f, err := os.Create(path + fmt.Sprintf("%d", i))
-		if err != nil {
-			return []string{path}, nil
-		}
-		f.Write(b)
-		f.Close()
-		paths = append(paths, path+fmt.Sprintf("%d", i))
-	}
-
-	os.Remove(path)
-
+	close(linesCh)
+	out.Close()
+	wg.Wait()
 	return paths, nil
 }
 
-func DeleteFile(paths []string) {
+func possessFile(line string, file *os.File, wg *sync.WaitGroup) {
+	defer wg.Done()
+	fmt.Fprintln(file, line)
+}
 
+func DeleteFile(paths []string) {
+	for _, path := range paths {
+		os.Remove(path)
+	}
 }
 
 func CreateFile(path string, data []byte) error {
-	return nil
+	file, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = file.Write(data)
+	return err
 }

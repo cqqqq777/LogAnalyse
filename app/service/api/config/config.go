@@ -24,12 +24,21 @@ type RedisConfig struct {
 	Password string `mapstructure:"password" json:"password"`
 }
 
+type NsqConfig struct {
+	Host          string `mapstructure:"host" json:"host"`
+	Port          int    `mapstructure:"port" json:"port"`
+	ProducerTopic string `mapstructure:"producer_topic" json:"producer_topic"`
+	ConsumerTopic string `mapstructure:"consumer_topic" json:"consumer_topic"`
+	Channel       string `mapstructure:"channel" json:"channel"`
+}
+
 type ServerConfig struct {
 	Name        string       `mapstructure:"name" json:"name"`
 	Host        string       `mapstructure:"host" json:"host"`
 	Port        int          `mapstructure:"port" json:"port"`
 	JWTInfo     JWTConfig    `mapstructure:"jwt" json:"jwt"`
 	OtelInfo    OtelConfig   `mapstructure:"otel" json:"otel"`
+	NsqInfo     NsqConfig    `mapstructure:"nsq" json:"nsq"`
 	RedisInfo   RedisConfig  `mapstructure:"redis" json:"redis"`
 	UserSrvInfo RPCSrvConfig `mapstructure:"user_srv" json:"user_srv"`
 	FileSrvInfo RPCSrvConfig `mapstructure:"file_srv" json:"file_srv"`

@@ -2,4 +2,10 @@ package internal
 
 const FilePrefix = "tmp/"
 
-const FileSize int64 = 16 * 1024 * 1024
+const ChunkLine = 20000
+
+const (
+	StatusWait int8 = iota
+	StatusSuccess
+	StatusFailed
+)

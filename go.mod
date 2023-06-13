@@ -19,6 +19,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.56
 	github.com/nacos-group/nacos-sdk-go v1.1.4
 	github.com/natefinch/lumberjack v2.0.0+incompatible
+	github.com/nsqio/go-nsq v1.1.0
 	github.com/spf13/viper v1.15.0
 	go.uber.org/zap v1.24.0
 	gorm.io/driver/mysql v1.5.1
@@ -46,6 +47,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/pprof v0.0.0-20230509042627-b1315fad0c5a // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2 // indirect

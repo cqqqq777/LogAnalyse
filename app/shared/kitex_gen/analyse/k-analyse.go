@@ -62,7 +62,7 @@ func (p *AnalyseReq) FastRead(buf []byte) (int, error) {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.I64 {
 				l, err = p.FastReadField2(buf[offset:])
 				offset += l
 				if err != nil {
@@ -78,6 +78,34 @@ func (p *AnalyseReq) FastRead(buf []byte) (int, error) {
 		case 3:
 			if fieldTypeId == thrift.STRING {
 				l, err = p.FastReadField3(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 4:
+			if fieldTypeId == thrift.STRING {
+				l, err = p.FastReadField4(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 5:
+			if fieldTypeId == thrift.STRING {
+				l, err = p.FastReadField5(buf[offset:])
 				offset += l
 				if err != nil {
 					goto ReadFieldError
@@ -141,12 +169,12 @@ func (p *AnalyseReq) FastReadField1(buf []byte) (int, error) {
 func (p *AnalyseReq) FastReadField2(buf []byte) (int, error) {
 	offset := 0
 
-	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
 		return offset, err
 	} else {
 		offset += l
 
-		p.Url = v
+		p.JobId = v
 
 	}
 	return offset, nil
@@ -160,7 +188,35 @@ func (p *AnalyseReq) FastReadField3(buf []byte) (int, error) {
 	} else {
 		offset += l
 
+		p.Url = v
+
+	}
+	return offset, nil
+}
+
+func (p *AnalyseReq) FastReadField4(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
 		p.Field = v
+
+	}
+	return offset, nil
+}
+
+func (p *AnalyseReq) FastReadField5(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadString(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
+		p.JobName = v
 
 	}
 	return offset, nil
@@ -178,6 +234,8 @@ func (p *AnalyseReq) FastWriteNocopy(buf []byte, binaryWriter bthrift.BinaryWrit
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 		offset += p.fastWriteField3(buf[offset:], binaryWriter)
+		offset += p.fastWriteField4(buf[offset:], binaryWriter)
+		offset += p.fastWriteField5(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -191,6 +249,8 @@ func (p *AnalyseReq) BLength() int {
 		l += p.field1Length()
 		l += p.field2Length()
 		l += p.field3Length()
+		l += p.field4Length()
+		l += p.field5Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -208,8 +268,8 @@ func (p *AnalyseReq) fastWriteField1(buf []byte, binaryWriter bthrift.BinaryWrit
 
 func (p *AnalyseReq) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "url", thrift.STRING, 2)
-	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Url)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "job_id", thrift.I64, 2)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.JobId)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -217,8 +277,26 @@ func (p *AnalyseReq) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWrit
 
 func (p *AnalyseReq) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
 	offset := 0
-	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "field", thrift.STRING, 3)
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "url", thrift.STRING, 3)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Url)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
+func (p *AnalyseReq) fastWriteField4(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "field", thrift.STRING, 4)
 	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.Field)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
+func (p *AnalyseReq) fastWriteField5(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "job_name", thrift.STRING, 5)
+	offset += bthrift.Binary.WriteStringNocopy(buf[offset:], binaryWriter, p.JobName)
 
 	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
 	return offset
@@ -235,8 +313,8 @@ func (p *AnalyseReq) field1Length() int {
 
 func (p *AnalyseReq) field2Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("url", thrift.STRING, 2)
-	l += bthrift.Binary.StringLengthNocopy(p.Url)
+	l += bthrift.Binary.FieldBeginLength("job_id", thrift.I64, 2)
+	l += bthrift.Binary.I64Length(p.JobId)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
@@ -244,8 +322,26 @@ func (p *AnalyseReq) field2Length() int {
 
 func (p *AnalyseReq) field3Length() int {
 	l := 0
-	l += bthrift.Binary.FieldBeginLength("field", thrift.STRING, 3)
+	l += bthrift.Binary.FieldBeginLength("url", thrift.STRING, 3)
+	l += bthrift.Binary.StringLengthNocopy(p.Url)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *AnalyseReq) field4Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("field", thrift.STRING, 4)
 	l += bthrift.Binary.StringLengthNocopy(p.Field)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *AnalyseReq) field5Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("job_name", thrift.STRING, 5)
+	l += bthrift.Binary.StringLengthNocopy(p.JobName)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l

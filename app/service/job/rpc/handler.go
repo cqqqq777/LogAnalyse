@@ -23,7 +23,7 @@ type JobServiceImpl struct {
 }
 
 type AnalysisManager interface {
-	Analyse(ctx context.Context, id int64, url, field string)
+	Analyse(ctx context.Context, jobID, id int64, url, field, jobName string)
 }
 
 type FileManager interface {
@@ -65,7 +65,7 @@ func (s *JobServiceImpl) CreateJob(ctx context.Context, req *job.CreateJobReq) (
 		return resp, nil
 	}
 
-	go s.Analyse(ctx, req.UserId, url, req.Field)
+	go s.Analyse(ctx, jobID, req.UserId, url, req.Field, req.JobName)
 
 	resp.BaseResp = response.NewBaseResp(nil)
 	resp.JobInfo.JobId = jobID

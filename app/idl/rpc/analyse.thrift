@@ -4,8 +4,10 @@ include "../common/common.thrift"
 
 struct analyse_req {
     1: i64 user_id
-    2:string url
-    3:string field
+    2: i64 job_id
+    3: string url
+    4: string field
+    5: string job_name
 }
 
 service AnalyseService {

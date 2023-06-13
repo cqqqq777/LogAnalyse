@@ -1,14 +1,19 @@
 package pkg
 
-import "context"
+import (
+	"LogAnalyse/app/shared/kitex_gen/analyse"
+	"LogAnalyse/app/shared/kitex_gen/analyse/analyseservice"
+	"context"
+)
 
 type AnalyseManager struct {
+	cli analyseservice.Client
 }
 
-func NewAnalysisManager(err error) AnalyseManager {
-	return AnalyseManager{}
+func NewAnalysisManager(cli analyseservice.Client) AnalyseManager {
+	return AnalyseManager{cli: cli}
 }
 
-func (a AnalyseManager) Analyse(ctx context.Context, id int64, url, field string) {
-
+func (a AnalyseManager) Analyse(ctx context.Context, jobID, id int64, url, field, jobName string) {
+	a.cli.Analyse(ctx, &analyse.AnalyseReq{JobId: jobID, UserId: id, Url: url, Field: field, JobName: jobName})
 }

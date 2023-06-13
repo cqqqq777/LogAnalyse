@@ -11,9 +11,11 @@ import (
 )
 
 type AnalyseReq struct {
-	UserId int64  `thrift:"user_id,1" frugal:"1,default,i64" json:"user_id"`
-	Url    string `thrift:"url,2" frugal:"2,default,string" json:"url"`
-	Field  string `thrift:"field,3" frugal:"3,default,string" json:"field"`
+	UserId  int64  `thrift:"user_id,1" frugal:"1,default,i64" json:"user_id"`
+	JobId   int64  `thrift:"job_id,2" frugal:"2,default,i64" json:"job_id"`
+	Url     string `thrift:"url,3" frugal:"3,default,string" json:"url"`
+	Field   string `thrift:"field,4" frugal:"4,default,string" json:"field"`
+	JobName string `thrift:"job_name,5" frugal:"5,default,string" json:"job_name"`
 }
 
 func NewAnalyseReq() *AnalyseReq {
@@ -28,6 +30,10 @@ func (p *AnalyseReq) GetUserId() (v int64) {
 	return p.UserId
 }
 
+func (p *AnalyseReq) GetJobId() (v int64) {
+	return p.JobId
+}
+
 func (p *AnalyseReq) GetUrl() (v string) {
 	return p.Url
 }
@@ -35,8 +41,15 @@ func (p *AnalyseReq) GetUrl() (v string) {
 func (p *AnalyseReq) GetField() (v string) {
 	return p.Field
 }
+
+func (p *AnalyseReq) GetJobName() (v string) {
+	return p.JobName
+}
 func (p *AnalyseReq) SetUserId(val int64) {
 	p.UserId = val
+}
+func (p *AnalyseReq) SetJobId(val int64) {
+	p.JobId = val
 }
 func (p *AnalyseReq) SetUrl(val string) {
 	p.Url = val
@@ -44,11 +57,16 @@ func (p *AnalyseReq) SetUrl(val string) {
 func (p *AnalyseReq) SetField(val string) {
 	p.Field = val
 }
+func (p *AnalyseReq) SetJobName(val string) {
+	p.JobName = val
+}
 
 var fieldIDToName_AnalyseReq = map[int16]string{
 	1: "user_id",
-	2: "url",
-	3: "field",
+	2: "job_id",
+	3: "url",
+	4: "field",
+	5: "job_name",
 }
 
 func (p *AnalyseReq) Read(iprot thrift.TProtocol) (err error) {
@@ -81,7 +99,7 @@ func (p *AnalyseReq) Read(iprot thrift.TProtocol) (err error) {
 				}
 			}
 		case 2:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField2(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -93,6 +111,26 @@ func (p *AnalyseReq) Read(iprot thrift.TProtocol) (err error) {
 		case 3:
 			if fieldTypeId == thrift.STRING {
 				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 4:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField4(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 5:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField5(iprot); err != nil {
 					goto ReadFieldError
 				}
 			} else {
@@ -140,10 +178,10 @@ func (p *AnalyseReq) ReadField1(iprot thrift.TProtocol) error {
 }
 
 func (p *AnalyseReq) ReadField2(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadString(); err != nil {
+	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
-		p.Url = v
+		p.JobId = v
 	}
 	return nil
 }
@@ -152,7 +190,25 @@ func (p *AnalyseReq) ReadField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return err
 	} else {
+		p.Url = v
+	}
+	return nil
+}
+
+func (p *AnalyseReq) ReadField4(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
 		p.Field = v
+	}
+	return nil
+}
+
+func (p *AnalyseReq) ReadField5(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.JobName = v
 	}
 	return nil
 }
@@ -173,6 +229,14 @@ func (p *AnalyseReq) Write(oprot thrift.TProtocol) (err error) {
 		}
 		if err = p.writeField3(oprot); err != nil {
 			fieldId = 3
+			goto WriteFieldError
+		}
+		if err = p.writeField4(oprot); err != nil {
+			fieldId = 4
+			goto WriteFieldError
+		}
+		if err = p.writeField5(oprot); err != nil {
+			fieldId = 5
 			goto WriteFieldError
 		}
 
@@ -212,10 +276,10 @@ WriteFieldEndError:
 }
 
 func (p *AnalyseReq) writeField2(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("url", thrift.STRING, 2); err != nil {
+	if err = oprot.WriteFieldBegin("job_id", thrift.I64, 2); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Url); err != nil {
+	if err := oprot.WriteI64(p.JobId); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -229,10 +293,10 @@ WriteFieldEndError:
 }
 
 func (p *AnalyseReq) writeField3(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("field", thrift.STRING, 3); err != nil {
+	if err = oprot.WriteFieldBegin("url", thrift.STRING, 3); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.Field); err != nil {
+	if err := oprot.WriteString(p.Url); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
@@ -243,6 +307,40 @@ WriteFieldBeginError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
 WriteFieldEndError:
 	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *AnalyseReq) writeField4(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("field", thrift.STRING, 4); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.Field); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
+}
+
+func (p *AnalyseReq) writeField5(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("job_name", thrift.STRING, 5); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.JobName); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
 }
 
 func (p *AnalyseReq) String() string {
@@ -261,10 +359,16 @@ func (p *AnalyseReq) DeepEqual(ano *AnalyseReq) bool {
 	if !p.Field1DeepEqual(ano.UserId) {
 		return false
 	}
-	if !p.Field2DeepEqual(ano.Url) {
+	if !p.Field2DeepEqual(ano.JobId) {
 		return false
 	}
-	if !p.Field3DeepEqual(ano.Field) {
+	if !p.Field3DeepEqual(ano.Url) {
+		return false
+	}
+	if !p.Field4DeepEqual(ano.Field) {
+		return false
+	}
+	if !p.Field5DeepEqual(ano.JobName) {
 		return false
 	}
 	return true
@@ -277,16 +381,30 @@ func (p *AnalyseReq) Field1DeepEqual(src int64) bool {
 	}
 	return true
 }
-func (p *AnalyseReq) Field2DeepEqual(src string) bool {
+func (p *AnalyseReq) Field2DeepEqual(src int64) bool {
 
-	if strings.Compare(p.Url, src) != 0 {
+	if p.JobId != src {
 		return false
 	}
 	return true
 }
 func (p *AnalyseReq) Field3DeepEqual(src string) bool {
 
+	if strings.Compare(p.Url, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *AnalyseReq) Field4DeepEqual(src string) bool {
+
 	if strings.Compare(p.Field, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *AnalyseReq) Field5DeepEqual(src string) bool {
+
+	if strings.Compare(p.JobName, src) != 0 {
 		return false
 	}
 	return true
