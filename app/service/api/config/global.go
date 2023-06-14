@@ -2,6 +2,7 @@ package config
 
 import (
 	"LogAnalyse/app/shared/kitex_gen/file/fileservice"
+	"LogAnalyse/app/shared/kitex_gen/job/jobservice"
 	"LogAnalyse/app/shared/kitex_gen/user/userservice"
 )
 
@@ -11,4 +12,5 @@ var (
 
 	GlobalUserClient userservice.Client
 	GlobalFileClient fileservice.Client
+	GlobalJobClient  jobservice.Client
 )

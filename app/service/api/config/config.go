@@ -27,7 +27,6 @@ type RedisConfig struct {
 type NsqConfig struct {
 	Host          string `mapstructure:"host" json:"host"`
 	Port          int    `mapstructure:"port" json:"port"`
-	ProducerTopic string `mapstructure:"producer_topic" json:"producer_topic"`
 	ConsumerTopic string `mapstructure:"consumer_topic" json:"consumer_topic"`
 	Channel       string `mapstructure:"channel" json:"channel"`
 }
@@ -42,6 +41,7 @@ type ServerConfig struct {
 	RedisInfo   RedisConfig  `mapstructure:"redis" json:"redis"`
 	UserSrvInfo RPCSrvConfig `mapstructure:"user_srv" json:"user_srv"`
 	FileSrvInfo RPCSrvConfig `mapstructure:"file_srv" json:"file_srv"`
+	JobSrvInfo  RPCSrvConfig `mapstructure:"job_srv" json:"job_srv"`
 }
 
 type RPCSrvConfig struct {

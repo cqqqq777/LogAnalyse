@@ -1,6 +1,6 @@
 package internal
 
-const FilePrefix = "tmp/"
+const FilePrefix = "./tmp/"
 
 const ChunkLine = 20000
 

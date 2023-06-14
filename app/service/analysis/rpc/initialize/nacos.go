@@ -1,11 +1,15 @@
 package initialize
 
 import (
+	"fmt"
+	"net"
+	"strconv"
+
 	"LogAnalyse/app/service/analysis/rpc/config"
 	"LogAnalyse/app/shared/consts"
 	"LogAnalyse/app/shared/log"
 	"LogAnalyse/app/shared/tools"
-	"fmt"
+
 	"github.com/bwmarrin/snowflake"
 	"github.com/bytedance/sonic"
 	"github.com/cloudwego/kitex/pkg/registry"
@@ -15,8 +19,6 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"github.com/spf13/viper"
-	"net"
-	"strconv"
 )
 
 func InitNacos(Port int) (registry.Registry, *registry.Info) {

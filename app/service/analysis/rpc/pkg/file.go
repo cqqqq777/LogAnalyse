@@ -1,14 +1,15 @@
 package pkg
 
 import (
-	"LogAnalyse/app/service/analysis/internal"
-	"LogAnalyse/app/shared/log"
 	"bufio"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"sync"
+
+	"LogAnalyse/app/service/analysis/internal"
+	"LogAnalyse/app/shared/log"
 )
 
 func GetFilePath(userId int64) string {

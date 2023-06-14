@@ -1,9 +1,10 @@
 package initialize
 
 import (
+	"flag"
+
 	"LogAnalyse/app/shared/consts"
 	"LogAnalyse/app/shared/tools"
-	"flag"
 )
 
 // InitFlag to init flag

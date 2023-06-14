@@ -1,14 +1,15 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
+
 	"LogAnalyse/app/service/analysis/internal"
 	"LogAnalyse/app/service/analysis/rpc/pkg"
 	"LogAnalyse/app/service/analysis/rpc/pkg/mr"
-	analyse "LogAnalyse/app/shared/kitex_gen/analyse"
-	common "LogAnalyse/app/shared/kitex_gen/common"
+	"LogAnalyse/app/shared/kitex_gen/analyse"
+	"LogAnalyse/app/shared/kitex_gen/common"
 	"LogAnalyse/app/shared/log"
-	"context"
-	"encoding/json"
 )
 
 // AnalyseServiceImpl implements the last service interface defined in the IDL.

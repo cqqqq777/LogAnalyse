@@ -1,9 +1,10 @@
-package initialize
+package rpc
 
 import (
-	"LogAnalyse/app/service/job/rpc/config"
+	"LogAnalyse/app/service/api/config"
 	"LogAnalyse/app/shared/consts"
-	"LogAnalyse/app/shared/kitex_gen/file/fileservice"
+	"LogAnalyse/app/shared/kitex_gen/job/jobservice"
+
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/loadbalance"
@@ -16,7 +17,7 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/vo"
 )
 
-func InitFile() fileservice.Client {
+func initJob() {
 	// init resolver
 	// Read configuration information from nacos
 	sc := []constant.ServerConfig{
@@ -40,7 +41,7 @@ func InitFile() fileservice.Client {
 			ClientConfig:  &cc,
 			ServerConfigs: sc,
 		})
-	r := nacos.NewNacosResolver(nacosCli, nacos.WithGroup(consts.FileGroup))
+	r := nacos.NewNacosResolver(nacosCli, nacos.WithGroup(consts.JobGroup))
 	if err != nil {
 		klog.Fatalf("new nacos client failed: %s", err.Error())
 	}
@@ -51,16 +52,16 @@ func InitFile() fileservice.Client {
 	)
 
 	// create a new client
-	c, err := fileservice.NewClient(
-		config.GlobalServerConfig.FileSrvInfo.Name,
+	c, err := jobservice.NewClient(
+		config.GlobalServerConfig.JobSrvInfo.Name,
 		client.WithResolver(r),                                     // service discovery
 		client.WithLoadBalancer(loadbalance.NewWeightedBalancer()), // load balance
 		client.WithMuxConnection(1),                                // multiplexing
 		client.WithSuite(tracing.NewClientSuite()),
-		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: config.GlobalServerConfig.FileSrvInfo.Name}),
+		client.WithClientBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: config.GlobalServerConfig.JobSrvInfo.Name}),
 	)
 	if err != nil {
 		klog.Fatalf("ERROR: cannot init client: %v\n", err)
 	}
-	return c
+	config.GlobalJobClient = c
 }

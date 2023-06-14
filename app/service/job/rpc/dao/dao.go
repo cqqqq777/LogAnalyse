@@ -2,6 +2,7 @@ package dao
 
 import (
 	"LogAnalyse/app/service/job/rpc/model"
+	"LogAnalyse/app/shared/log"
 	"gorm.io/gorm"
 )
 
@@ -14,7 +15,7 @@ func NewJob(db *gorm.DB) *Job {
 	if !m.HasTable(&model.Job{}) {
 		err := m.CreateTable(&model.Job{})
 		if err != nil {
-			panic(err)
+			log.Zlogger.Fatal("create jobs table failed")
 		}
 	}
 	return &Job{db: db}

@@ -3,6 +3,8 @@
 package main
 
 import (
+	"LogAnalyse/app/service/api/pkg"
+	"LogAnalyse/app/shared/log"
 	"fmt"
 
 	"LogAnalyse/app/service/api/config"
@@ -19,6 +21,18 @@ func main() {
 	r, info := initialize.InitNacos()
 	tracer, cfg := hertztracing.NewServerTracer()
 	rpc.Init()
+
+	// start consumer
+	consumer, err := pkg.NewConsumer()
+	if err != nil {
+		log.Zlogger.Fatal("new consumer err:" + err.Error())
+	}
+	go func() {
+		err := consumer.Consume(config.GlobalJobClient)
+		if err != nil {
+			log.Zlogger.Fatal("start consumer err:" + err.Error())
+		}
+	}()
 
 	// create a new server
 	h := server.New(
