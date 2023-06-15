@@ -1,4 +1,7 @@
 # LogAnalyze
+
+English | [中文](https://github.com/cqqqq777/LogAnalyse/blob/main/README_cn.md)
+
 A distributed log analyze system.
 
 ## Project Implementation
