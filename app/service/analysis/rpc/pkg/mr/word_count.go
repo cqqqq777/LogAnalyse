@@ -57,7 +57,6 @@ func doMap(path, filed string, intermediate chan<- []*KV) {
 	outPut := make([]*KV, 0, fileInfo.Size()/64)
 
 	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
 	logMap := make(map[string]interface{})
 	for scanner.Scan() {
 		err = json.Unmarshal([]byte(scanner.Text()), &logMap)

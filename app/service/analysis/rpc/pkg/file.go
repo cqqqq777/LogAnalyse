@@ -17,6 +17,7 @@ func GetFilePath(userId int64) string {
 }
 
 func DownloadFile(url string, userId int64) ([]string, error) {
+	// get file from minio
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -36,6 +37,7 @@ func DownloadFile(url string, userId int64) ([]string, error) {
 		return nil, err
 	}
 
+	// split file
 	var wg sync.WaitGroup
 	scanner := bufio.NewScanner(tmp)
 	linesCh := make(chan string)
