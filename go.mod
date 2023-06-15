@@ -8,6 +8,7 @@ require (
 	github.com/apache/thrift v0.13.0
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/bytedance/sonic v1.8.7
+	github.com/casbin/casbin/v2 v2.70.0
 	github.com/cloudwego/hertz v0.6.4
 	github.com/cloudwego/kitex v0.5.2
 	github.com/golang-jwt/jwt v3.2.2+incompatible
@@ -27,6 +28,7 @@ require (
 )
 
 require (
+	github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.61.18 // indirect
 	github.com/andeya/goutil v1.0.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect

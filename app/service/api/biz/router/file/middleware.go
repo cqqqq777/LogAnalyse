@@ -23,6 +23,7 @@ func _uploadfileMw() []app.HandlerFunc {
 	// your code...
 	return []app.HandlerFunc{
 		middleware.JwtAuth(config.GlobalServerConfig.JWTInfo.SigningKey),
+		middleware.CasbinAuth(config.GlobalCasbinEnforcer),
 	}
 }
 
@@ -30,6 +31,7 @@ func _downloadfileMw() []app.HandlerFunc {
 	// your code...
 	return []app.HandlerFunc{
 		middleware.JwtAuth(config.GlobalServerConfig.JWTInfo.SigningKey),
+		middleware.CasbinAuth(config.GlobalCasbinEnforcer),
 	}
 }
 
@@ -37,5 +39,6 @@ func _listfileMw() []app.HandlerFunc {
 	// your code...
 	return []app.HandlerFunc{
 		middleware.JwtAuth(config.GlobalServerConfig.JWTInfo.SigningKey),
+		middleware.CasbinAuth(config.GlobalCasbinEnforcer),
 	}
 }

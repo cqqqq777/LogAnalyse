@@ -1,0 +1,13 @@
+# User Service
+p, tourist, /api/user/register, POST
+p, tourist, /api/user/login, POST
+
+# File Service
+p, user, /api/file, POST
+p, user, /api/file, GET
+p, user, /api/files, GET
+
+# Job Service
+p, user, /api/job, POST
+p, user, /api/jobs, GET
+p, user, /api/job, GET

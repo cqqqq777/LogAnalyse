@@ -3,6 +3,8 @@
 package user
 
 import (
+	"LogAnalyse/app/service/api/config"
+	"LogAnalyse/app/shared/middleware"
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -23,10 +25,14 @@ func _userMw() []app.HandlerFunc {
 
 func _loginMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		middleware.CasbinAuth(config.GlobalCasbinEnforcer),
+	}
 }
 
 func _registerMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		middleware.CasbinAuth(config.GlobalCasbinEnforcer),
+	}
 }

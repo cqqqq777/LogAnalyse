@@ -22,6 +22,7 @@ func _getjobinfoMw() []app.HandlerFunc {
 	// your code...
 	return []app.HandlerFunc{
 		middleware.JwtAuth(config.GlobalServerConfig.JWTInfo.SigningKey),
+		middleware.CasbinAuth(config.GlobalCasbinEnforcer),
 	}
 }
 
@@ -29,6 +30,7 @@ func _createjobMw() []app.HandlerFunc {
 	// your code...
 	return []app.HandlerFunc{
 		middleware.JwtAuth(config.GlobalServerConfig.JWTInfo.SigningKey),
+		middleware.CasbinAuth(config.GlobalCasbinEnforcer),
 	}
 }
 
@@ -36,5 +38,6 @@ func _listjobMw() []app.HandlerFunc {
 	// your code...
 	return []app.HandlerFunc{
 		middleware.JwtAuth(config.GlobalServerConfig.JWTInfo.SigningKey),
+		middleware.CasbinAuth(config.GlobalCasbinEnforcer),
 	}
 }

@@ -19,6 +19,7 @@ import (
 func main() {
 	// init
 	r, info := initialize.InitNacos()
+	initialize.InitCasbin()
 	tracer, cfg := hertztracing.NewServerTracer()
 	rpc.Init()
 
