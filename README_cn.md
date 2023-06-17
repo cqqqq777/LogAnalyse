@@ -1,4 +1,4 @@
-# LogAnalyze
+# LogAnalyse
 
 分布式日志分析系统。
 
@@ -12,7 +12,7 @@
 - 服务注册中心: Nacos
 - 消息队列: Nsq
 - 分布式存储系统: Minio
-- 链路追踪: Yaeger
+- 链路追踪: Jaeger
 
 ## 功能
 
@@ -219,5 +219,5 @@ func DownloadFile(url string, userId int64) ([]string, error) {
    }
    ```
 
-5. 最终结果返回给 Analuysis Service ，由其写入输出文件
+5. 最终结果返回给 Analysis Service，由其写入输出文件
 
