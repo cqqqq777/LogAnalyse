@@ -123,8 +123,8 @@ Based on the idea of MapReduce, a computing framework for concurrent execution o
 
 2. The Map operation merges all Goroutine Data into Intermediate Data
     - Implementation: Open the file to read line by line, the log of each line will be deserialized to 'map [ string ] interface {} ' , according to the parameters passed into the generation of KV structure, and finally by the channel for communication, merged into Intermediate Data
-      
-      ```
+    
+      ```go
       func (w *WordCounter) Map(filed string) ([]*KV, error) {
          if len(w.files) == 0 {
             return nil, ErrNoFiles
@@ -145,36 +145,38 @@ Based on the idea of MapReduce, a computing framework for concurrent execution o
       
          return intermediate, nil
       }
-     
-     func doMap(path, filed string, intermediate chan<- []*KV) {
-        file, err := os.Open(path)
-        if err != nil {
-           intermediate <- nil
-           return
-        }
+      
+      func doMap(path, filed string, intermediate chan<- []*KV) {
+         file, err := os.Open(path)
+         if err != nil {
+            intermediate <- nil
+            return
+         }
          defer file.Close()
-     
-        fileInfo, err := file.Stat()
-        if err != nil {
-           intermediate <- nil
-           return
-        }
-     
-        outPut := make([]*KV, 0, fileInfo.Size()/64)
-     
-        scanner := bufio.NewScanner(file)
-        logMap := make(map[string]interface{})
-        for scanner.Scan() {
-           err = json.Unmarshal([]byte(scanner.Text()), &logMap)
-           if err != nil {
-              continue
-           }
-           outPut = append(outPut, &KV{Key: logMap[filed].(string), value: ""})
-        }
-     
-        intermediate <- outPut
-     }
+      
+         fileInfo, err := file.Stat()
+         if err != nil {
+            intermediate <- nil
+            return
+         }
+      
+         outPut := make([]*KV, 0, fileInfo.Size()/64)
+      
+         scanner := bufio.NewScanner(file)
+         logMap := make(map[string]interface{})
+         for scanner.Scan() {
+            err = json.Unmarshal([]byte(scanner.Text()), &logMap)
+            if err != nil {
+               continue
+            }
+            outPut = append(outPut, &KV{Key: logMap[filed].(string), value: ""})
+         }
+      
+         intermediate <- outPut
+      }
       ```
+    
+      
     
 3. The Shuffle stage, where data is divided into groups based on different keys and processed by the Reduce stage
    ```go
